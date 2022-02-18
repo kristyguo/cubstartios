@@ -8,7 +8,22 @@
 import UIKit
 import Foundation
 
+var randomNumber = 0;
+var range = 100;
+var level = 1;
+var highestScore = 0;
+
 class ViewController: UIViewController {
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        randomNumber = Int(arc4random_uniform(101))
+        numLabel.text = String(randomNumber)
+        
+        rangeLabel.text = String(range)
+        currentLevel.text = String(level)
+        highScore.text = String(highestScore)
+    }
     
     // switch that switches on and off from exact mode
     @IBOutlet weak var exactSwitch: UISwitch!
@@ -35,20 +50,69 @@ class ViewController: UIViewController {
     @IBOutlet weak var rangeLabel: UILabel!
     
     @IBAction func checkValue(_ sender: Any) {
-    
+        if exactSwitch.isOn == false {
+            if randomNumber - 3 <= Int(numSlider.value) && randomNumber + 3 >= Int(numSlider.value) {
+                resultLabel.text = "Bullseye!"
+                
+                range += 50
+                rangeLabel.text = String(range)
+                numSlider.maximumValue = Float(range)
+                
+                level += 1
+                currentLevel.text = String(level)
+                
+                numSlider.setValue(Float(range / 2), animated: false)
+                randomNumber = Int(arc4random_uniform(UInt32(range + 1)))
+                numLabel.text = String(randomNumber)
+                resultLabel.isHidden = true
+            } else {
+                playAgainButton.isHidden = false
+                resultLabel.text = "Whoops! You missed! Try again later"
+            }
+        } else {
+            if(randomNumber == Int(numSlider.value)){
+                resultLabel.text = "Bullseye!"
+                
+                range += 50
+                rangeLabel.text = String(range)
+                numSlider.maximumValue = Float(range)
+                
+                level += 1
+                currentLevel.text = String(level)
+                numSlider.setValue(Float(range / 2), animated: false)
+                randomNumber = Int(arc4random_uniform(UInt32(range + 1)))
+                numLabel.text = String(randomNumber)
+                resultLabel.isHidden = true
+            } else {
+                playAgainButton.isHidden = false
+                resultLabel.text = "Whoops! You missed! Try again later"
+            }
+        }
+        resultLabel.isHidden = false
     }
     
     @IBAction func playAgain(_ sender: Any) {
+        if(level > highestScore && level != 1) {
+            highestScore = level
+            highScore.text = String(highestScore)
+        }
+        numSlider.setValue(50.0, animated: false)
+        randomNumber = Int(arc4random_uniform(101))
+        numLabel.text = String(randomNumber)
+        resultLabel.isHidden = true
+        playAgainButton.isHidden = true
+        
+        range = 100
+        rangeLabel.text = String(range)
+        numSlider.maximumValue = Float(range)
+                
+        level = 1
+        currentLevel.text = String(level)
+        
+    }
 
-        
-    }
-    
     @IBAction func sliderValueChanged(_ sender: Any) {
-        
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
+//        numLabel.text = "\(Int(numSlider.value))"
     }
 
 }
