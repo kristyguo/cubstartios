@@ -1,0 +1,76 @@
+//
+//  ContentView.swift
+//  Bullseye with SwiftUI
+//
+//  Created by Tony Hong on 2/17/22.
+//
+
+import SwiftUI
+
+struct ContentView: View {
+    @State private var num: Double = 0
+    @State var toggle = false
+    
+    var body: some View {
+        VStack() {
+            HStack() {
+                VStack() {
+                    Text("High Score")
+                    Text("0")
+                }
+                
+                .padding(.leading, 20)
+                .padding(.top, 20)
+                Spacer()
+                
+                VStack() {
+                    Text("Current Level")
+                    Text("1")
+                }
+                .padding(.trailing, 20)
+                .padding(.top, 20)
+                
+            }
+            Spacer()
+            
+            VStack() {
+                VStack() {
+                    Text("Move the slider to:")
+                    .font(.system(size: 30))
+                    Text("25")
+                    .font(.system(size: 30))
+                }
+                
+                VStack() {
+                    Slider(value: $num, in: 0...100)
+                }
+                .padding(.leading, 10)
+                .padding(.trailing, 10)
+
+                VStack() {
+                    Button("Check"){
+                        
+                    }
+                }
+                
+            }
+            Spacer()
+            
+            VStack() {
+                Text("Exact Mode?")
+            }
+            
+            VStack() {
+                Toggle("", isOn: $toggle)
+            }
+            .padding(.trailing, 170)
+            
+        }
+    }
+}
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
+}
